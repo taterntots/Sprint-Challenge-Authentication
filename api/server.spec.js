@@ -63,6 +63,13 @@ describe('server.js', () => {
   //LOGIN
   //********************
   describe('POST /api/auth/login', () => {
+    it('should return JSON', async () => {
+      return request(server).post('/api/auth/login')
+      .then(res => {
+        //check that request returns JSON
+        expect(res.type).toMatch(/json/i)
+      })
+    })
     it('should return 200 OK status when logged in', async () => {
       // register a new user
       res = await request(server)
@@ -80,8 +87,8 @@ describe('server.js', () => {
           password: 'jiggy'
         });
       expect(res.status).toEqual(200);
-    });
-  });
+    })
+  })
   //********************
   //JOKES
   //********************
