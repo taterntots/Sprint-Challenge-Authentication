@@ -19,7 +19,20 @@ router.post('/register', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-  // implement login
+  let { username, password } = req.body;
+
+  Users.findBy({ username })
+    .first()
+    .then(user => {
+      if (user && bc.compareSync(password, user.password)) {
+        res.status(200).json({ message: `Logged in! Welcome ${user.username}!` }); //attaches token as part of the response
+      } else {
+        res.status(401).json({ message: 'Invalid Credentials. You shall not pass!' });
+      }
+    })
+    .catch(error => {
+      res.status(500).json(error);
+    })
 });
 
 module.exports = router;
